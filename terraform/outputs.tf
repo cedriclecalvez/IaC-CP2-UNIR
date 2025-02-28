@@ -2,13 +2,6 @@ output "resource_group_name" {
   value = azurerm_resource_group.rg.name
 }
 
-module "vm" {
-  source = "./modules/vm"
-}
-
-module "aks" {
-  source = "./modules/aks"
-}
 
 output "vm_ids" {
   description = "The IDs of the VMs"
