@@ -16,7 +16,7 @@ resource "azurerm_subnet" "myvnet_subnet" {
   address_prefixes     = ["10.0.1.0/24"]
 }
 # Description: Contains the code to create a network interface in Azure.
-resource "azurerm_network_interface " "vm_nic" {
+resource "azurerm_network_interface" "vm_nic" {
   name                = var.vm_nic
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
@@ -32,7 +32,7 @@ resource "azurerm_network_interface " "vm_nic" {
   }
 }
 # Description: Contains the code to create a network interface in Azure.
-resource "azurerm_network_interface " "aks_nic" {
+resource "azurerm_network_interface" "aks_nic" {
   name                = var.aks_nic
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
