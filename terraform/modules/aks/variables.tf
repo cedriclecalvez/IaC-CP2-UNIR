@@ -1,6 +1,6 @@
 variable "aks_name" {
   description = "Azure Kubernetes Service name"
-  default     = "aks"
+  default     = "aks-unir"
   type        = string
 
 }

@@ -6,17 +6,14 @@ variable "avset_name" {
 
 variable "vm_name" {
   description = "The name of the virtual machine"
-  default     = "myvm"
+  default     = "myvm-unir"
   type        = string
+
 }
 
-variable "resource_group_name" {
-  description = "Nom du groupe de ressources"
-  type        = string
-}
 
-variable "location" {
-  description = "Region Azure"
-  default     = "West Europe"
+variable "tag_value" {
+  description = "The value of the tag to be used across the project"
+  default     = "CP2"
   type        = string
 }

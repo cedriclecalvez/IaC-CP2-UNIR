@@ -1,35 +1,60 @@
-provider "azurerm" {
-  features {}
+# version of terraform
+terraform {
+  required_version = ">= 1.3.0"
+  required_providers {
+    azurerm = {
+      source  = "hashicorp/azurerm"
+      version = ">= 3.0"
+    }
+  }
 }
 
-module "resource_group" {
-  source              = "./modules/resource_group"
-  resource_group_name = var.resource_group_name
-  location            = var.location
+# provider block, create a provider
+provider "azurerm" {
+  features {}
+  # subscription_id = var.subscription_id
+  # client_id       = var.client_id
+  # client_secret   = var.client_secret
+  # tenant_id       = var.tenant_id
+}
+# resource group
+resource "azurerm_resource_group" "rg" {
+  name     = var.rg_name
+  location = var.location
+  tags = {
+    environment = var.tag_value
+  }
+}
+
+# storage account
+resource "azurerm_storage_account" "sa" {
+  name                     = "unirsa"
+  resource_group_name      = azurerm_resource_group.rg.name
+  location                 = azurerm_resource_group.rg.location
+  account_tier             = "Standard"
+  account_replication_type = "LRS"
+  tags = {
+    environment = var.tag_value
+  }
+}
+
+module "network" {
+  source = "./modules/network"
+}
+
+module "security" {
+  source = "./modules/security"
 }
 
 module "acr" {
-  source              = "./modules/acr"
-  acr_name            = var.acr_name
-  resource_group_name = module.resource_group.resource_group_name
-  location            = var.location
-}
-
-module "load_balancer" {
-  source              = "./modules/load_balancer"
-  resource_group_name = module.resource_group.resource_group_name
-  location            = module.load_balancer.location
-  aks_nodes           = module.aks.aks_nodes # Liste des IPs des nœuds AKS
+  source = "./modules/acr"
 }
 
 module "vm" {
-  source              = "./modules/vm"
-  vm_name             = var.vm_name
-  resource_group_name = var.resource_group_name
-  location            = var.location
+  source = "./modules/vm"
 }
 
 module "aks" {
-  source   = "./modules/aks"
-  aks_name = var.aks_name
+  source = "./modules/aks"
 }
+

@@ -1,35 +1,40 @@
+# project variables
+variable "subscription_id" {
+  description = "The subscription ID for Azure"
+  type        = string
+}
+
+variable "client_id" {
+  description = "The client ID for the Azure Service Principal"
+  type        = string
+}
+
+variable "client_secret" {
+  description = "The client secret for the Azure Service Principal"
+  type        = string
+  sensitive   = true
+}
+
+variable "tenant_id" {
+  description = "The tenant ID for Azure"
+  type        = string
+}
+
+# resource group variables
 variable "location" {
   description = "The Azure region to deploy resources"
   default     = "West Europe"
   type        = string
 }
-
-variable "resource_group_name" {
-  description = "The name of the resource group"
-  default     = "my-resource-group"
+variable "rg_name" {
+  description = "The Azure region to deploy resources"
+  default     = "rg-unir"
   type        = string
 }
 
-variable "acr_name" {
-  description = "The name of the Azure Container Registry"
-  default     = "myacr"
-  type        = string
-}
-
-# variable "load_balancer_name" {
-#   description = "The name of the load balancer"
-#   default     = "mylb"
-#   type        = string
-# }
-
-variable "vm_name" {
-  description = "The name of the virtual machine"
-  default     = "myvm"
-  type        = string
-}
-
-variable "aks_name" {
-  description = "The name of the Azure Kubernetes Service"
-  default     = "myaks"
+# tag variables
+variable "tag_value" {
+  description = "The value of the tag to be used across the project"
+  default     = "CP2"
   type        = string
 }
