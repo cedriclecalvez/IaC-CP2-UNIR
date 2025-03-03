@@ -1,9 +1,5 @@
 # IaC-CP2-UNIR
 
-IaC to create two instances in Azure cloud provider. Using Terraform and Ansible, I want a VM with Podman and a web app and in the other instance I want a cluster Kubernetes with an app having persistance data.
-
-# IaC-CP2-UNIR
-
 This project uses Infrastructure as Code (IaC) to create resources in the Azure cloud provider. It leverages Terraform and Ansible to provision and configure the following:
 
 1. A Virtual Machine (VM) with Podman and a web application.
@@ -21,7 +17,7 @@ terraform
 
     ## Prerequisites
 
-- Terraform >= 1.3.0
+- Terraform >= 1.10.0
 - Ansible
 - Azure CLI
 
@@ -30,7 +26,7 @@ terraform
 1. Clone the repository:
 
    ```sh
-   git clone <repository-url>
+   git clone https://github.com/cedriclecalvez/IaC-CP2-UNIR
    cd IaC-CP2-UNIR/terraform
    ```
 
@@ -43,15 +39,35 @@ terraform
    tenant_id       = "your-tenant-id"
    ```
 
-3. Initialize Terraform:
+3. Clone the repository:
+
+   ```sh
+   git clone <repository-url>
+   cd <repository-directory>
+   ```
+
+4. Initialize Terraform:
 
    ```sh
    terraform init
    ```
 
-4. Apply the Terraform configuration:
+5. Plan the deployment:
+
+   ```sh
+   terraform plan
+   ```
+
+6. Apply the deployment:
+
    ```sh
    terraform apply
+   ```
+
+7. Retrieve the outputs:
+
+   ```sh
+   terraform output
    ```
 
 ## Modules
@@ -83,11 +99,24 @@ terraform
 
 ## Outputs
 
-- **ACR Login Server:** `module.acr.acr_login_server`
-- **VM Public IP:** `module.vm.vm_public_ip`
-- **VM Private IPs:** `module.vm.vm_private_ips`
+- **Resource Group Name:** `output.resource_group_name`
+- **Location:** `output.location`
+- **Storage Account Name:** `output.storage_account_name`
+- **VM Private Key:** `module.vm.private_key`
+- **VM Public Key:** `module.vm.public_key`
+- **VM IDs:** `module.vm.vm_ids`
+- **VM Principal ID:** `module.vm.vm_principal_id`
+- **VM Public IP Addresses:** `module.vm.vm_public_ip_addresses`
 - **AKS Cluster Name:** `module.aks.aks_cluster_name`
 - **AKS Node Resource Group:** `module.aks.aks_node_resource_group`
+- **AKS Public IP:** `module.aks.aks_public_ip`
+- **VM NIC ID:** `module.network.vm_nic_id`
+- **AKS NIC ID:** `module.network.aks_nic_id`
+- **Virtual Network ID:** `module.network.vnet_id`
+- **Subnet ID:** `module.network.subnet_id`
+- **ACR Login Server:** `module.acr.acr_login_server`
+- **ACR Username:** `module.acr.acr_username`
+- **ACR Password:** `module.acr.acr_password`
 
 ## License
 

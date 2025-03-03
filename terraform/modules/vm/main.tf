@@ -45,9 +45,6 @@ resource "azurerm_linux_virtual_machine" "vm" {
   boot_diagnostics {
     storage_account_uri = var.storage_account_uri
   }
-  # boot_diagnostics {
-  #   storage_account_uri = azurerm_storage_account.stAccount.primary_blob_endpoint
-  # }
 
   identity {
     type = "SystemAssigned"

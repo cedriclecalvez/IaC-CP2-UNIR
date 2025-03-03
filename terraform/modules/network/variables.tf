@@ -8,12 +8,12 @@ variable "resource_group_name" {
   type        = string
 }
 variable "vm_nic" {
-  description = "value"
+  description = "The name of the network interface for the VM module"
   default     = "vm-nic"
   type        = string
 }
 variable "aks_nic" {
-  description = "value"
+  description = "The name of the network interface for the AKS cluster"
   default     = "aks-nic"
   type        = string
 }

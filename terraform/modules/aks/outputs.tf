@@ -1,6 +1,7 @@
 output "aks_kube_config" {
-  value     = azurerm_kubernetes_cluster.aks.kube_config_raw
-  sensitive = true
+  description = "The kube config for the AKS cluster"
+  value       = azurerm_kubernetes_cluster.aks.kube_config_raw
+  sensitive   = true
 }
 
 output "aks_cluster_name" {
@@ -14,5 +15,7 @@ output "aks_node_resource_group" {
 }
 
 output "aks_principal_id" {
-  value = azurerm_kubernetes_cluster.aks.kubelet_identity[0].object_id
+  description = "The principal id of the AKS cluster"
+  value       = azurerm_kubernetes_cluster.aks.kubelet_identity[0].object_id
 }
+
