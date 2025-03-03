@@ -9,7 +9,7 @@ resource "tls_private_key" "vm_ssh" {
   rsa_bits  = 4096
 }
 
-resource "azurerm_linux_virtual_machine" "vm" {
+resource "azurerm_linux_virtual_machine" "vm_web" {
   name                            = var.vm_name
   resource_group_name             = var.resource_group_name
   location                        = var.location
@@ -30,16 +30,10 @@ resource "azurerm_linux_virtual_machine" "vm" {
     storage_account_type = "Standard_LRS"
   }
 
-  plan {
-    name      = "ubuntu"
-    product   = "UbuntuServer"
-    publisher = "Canonical"
-  }
-  #
   source_image_reference {
-    publisher = "Canonical"
-    offer     = "UbuntuServer"
-    sku       = "20.04-LTS"
+    publisher = "canonical"
+    offer     = "0001-com-ubuntu-server-focal"
+    sku       = "20_04-lts"
     version   = "latest"
   }
   boot_diagnostics {

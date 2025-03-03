@@ -57,6 +57,8 @@ module "acr" {
   source              = "./modules/acr"
   resource_group_name = azurerm_resource_group.rg.name
   location            = azurerm_resource_group.rg.location
+  vm_principal_id     = module.vm.vm_principal_id
+  aks_principal_id    = module.aks.aks_principal_id
 }
 
 module "vm" {

@@ -28,13 +28,13 @@ variable "role_definition_name" {
 
 variable "vm_principal_id" {
   description = "The principal ID of the vm"
-  default     = "azurerm_linux_virtual_machine.vm_web.identity[0].principal_id"
-  type        = string
+  # default     = "azurerm_linux_virtual_machine.vm_web.identity[0].principal_id"
+  type = string
 }
 
 variable "aks_principal_id" {
   description = "The principal ID of the aks"
-  default     = "azurerm_kubernetes_cluster.aks.kubelet_identity[0].object_id"
-  type        = string
+  # default     = "azurerm_kubernetes_cluster.aks.kubelet_identity[0].object_id"
+  type = string
 }
 
