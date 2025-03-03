@@ -1,8 +1,8 @@
 # security group for the web server
 resource "azurerm_network_security_group" "web_sec_group" {
   name                = var.web_nsg_name
-  location            = azurerm_resource_group.rg.location
-  resource_group_name = azurerm_resource_group.rg.name
+  resource_group_name = var.resource_group_name
+  location            = var.location
 
   security_rule {
     name                       = "SSH"
@@ -22,8 +22,8 @@ resource "azurerm_network_security_group" "web_sec_group" {
 # security group for the aks
 resource "azurerm_network_security_group" "aks_sec_group" {
   name                = var.aks_nsg_name
-  location            = azurerm_resource_group.rg.location
-  resource_group_name = azurerm_resource_group.rg.name
+  resource_group_name = var.resource_group_name
+  location            = var.location
 
   security_rule {
     name                       = "HTTP"
@@ -43,12 +43,12 @@ resource "azurerm_network_security_group" "aks_sec_group" {
 
 # associate the security group with the network interface for the web server
 resource "azurerm_network_interface_security_group_association" "vm_nic_sg_association" {
-  network_interface_id      = azurerm_network_interface.vm_nic.id
-  network_security_group_id = azurerm_network_security_group.my_sec_group.id
+  network_interface_id      = var.vm_nic_id
+  network_security_group_id = azurerm_network_security_group.web_sec_group.id
 }
 
 # associate the security group with the network interface for the aks
 resource "azurerm_network_interface_security_group_association" "aks_nic_sg_association" {
-  network_interface_id      = azurerm_network_interface.aks_nic.id
+  network_interface_id      = var.aks_nic_id
   network_security_group_id = azurerm_network_security_group.aks_sec_group.id
 }

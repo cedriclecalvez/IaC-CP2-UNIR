@@ -1,7 +1,7 @@
 resource "azurerm_kubernetes_cluster" "aks" {
   name                = var.aks_name
-  location            = azurerm_resource_group.rg.location
-  resource_group_name = azurerm_resource_group.rg.name
+  resource_group_name = var.resource_group_name
+  location            = var.location
   dns_prefix          = "k8s-cluster-unir"
 
   default_node_pool {

@@ -1,10 +1,10 @@
 # version of terraform
 terraform {
-  required_version = ">= 1.3.0"
+  required_version = ">= 1.10.0"
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = ">= 3.0"
+      version = ">= 4.19.0"
     }
   }
 }
@@ -12,7 +12,7 @@ terraform {
 # provider block, create a provider
 provider "azurerm" {
   features {}
-  # subscription_id = var.subscription_id
+  subscription_id = var.subscription_id
   # client_id       = var.client_id
   # client_secret   = var.client_secret
   # tenant_id       = var.tenant_id
@@ -39,22 +39,38 @@ resource "azurerm_storage_account" "sa" {
 }
 
 module "network" {
-  source = "./modules/network"
+  source              = "./modules/network"
+  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
+
 }
 
 module "security" {
-  source = "./modules/security"
+  source              = "./modules/security"
+  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
+  vm_nic_id           = module.network.vm_nic_id
+  aks_nic_id          = module.network.aks_nic_id
 }
 
 module "acr" {
-  source = "./modules/acr"
+  source              = "./modules/acr"
+  resource_group_name = azurerm_resource_group.rg.name
+  location            = azurerm_resource_group.rg.location
 }
 
 module "vm" {
-  source = "./modules/vm"
+  source              = "./modules/vm"
+  resource_group_name = azurerm_resource_group.rg.name
+  location            = azurerm_resource_group.rg.location
+  storage_account_uri = azurerm_storage_account.sa.primary_blob_endpoint
+  vm_nic_id           = module.network.vm_nic_id
 }
 
 module "aks" {
-  source = "./modules/aks"
+  source              = "./modules/aks"
+  resource_group_name = azurerm_resource_group.rg.name
+  location            = azurerm_resource_group.rg.location
+
 }
 

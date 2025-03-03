@@ -1,7 +1,7 @@
 resource "azurerm_availability_set" "avset" {
   name                = var.avset_name
-  resource_group_name = azurerm_resource_group.rg.name
-  location            = azurerm_resource_group.rg.location
+  resource_group_name = var.resource_group_name
+  location            = var.location
 }
 
 resource "tls_private_key" "vm_ssh" {
@@ -11,11 +11,11 @@ resource "tls_private_key" "vm_ssh" {
 
 resource "azurerm_linux_virtual_machine" "vm" {
   name                            = var.vm_name
-  resource_group_name             = azurerm_resource_group.rg.name
-  location                        = azurerm_resource_group.rg.location
+  resource_group_name             = var.resource_group_name
+  location                        = var.location
   size                            = "Standard_DS1_v2"
   admin_username                  = "adminuser"
-  network_interface_ids           = [azurerm_network_interface.vm_nic.id]
+  network_interface_ids           = [var.vm_nic_id]
   availability_set_id             = azurerm_availability_set.avset.id # 🔄 Associe la VM à l'Availability Set
   disable_password_authentication = true                              # 🔄 to disable password authentication and enforce SSH key-based authentication
 
@@ -42,15 +42,16 @@ resource "azurerm_linux_virtual_machine" "vm" {
     sku       = "20.04-LTS"
     version   = "latest"
   }
-
   boot_diagnostics {
-    storage_account_uri = azurerm_storage_account.stAccount.primary_blob_endpoint
+    storage_account_uri = var.storage_account_uri
   }
+  # boot_diagnostics {
+  #   storage_account_uri = azurerm_storage_account.stAccount.primary_blob_endpoint
+  # }
 
-
-
-
-
+  identity {
+    type = "SystemAssigned"
+  }
   tags = {
     environment = var.tag_value
   }

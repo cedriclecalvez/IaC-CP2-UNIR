@@ -32,6 +32,7 @@ variable "rg_name" {
   type        = string
 }
 
+
 # tag variables
 variable "tag_value" {
   description = "The value of the tag to be used across the project"

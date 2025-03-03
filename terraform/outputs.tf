@@ -2,17 +2,6 @@ output "resource_group_name" {
   value = azurerm_resource_group.rg.name
 }
 
-
-output "vm_ids" {
-  description = "The IDs of the VMs"
-  value       = module.vm.vm_ids
-}
-
-output "vm_private_ips" {
-  description = "The private IP addresses of the VMs"
-  value       = module.vm.vm_private_ips
-}
-
 output "aks_cluster_name" {
   description = "The name of the AKS cluster"
   value       = module.aks.aks_cluster_name
