@@ -20,7 +20,7 @@ resource "azurerm_linux_virtual_machine" "vm_web" {
   disable_password_authentication = true                              # 🔄 to disable password authentication and enforce SSH key-based authentication
 
   admin_ssh_key {
-    username   = "azureuser"
+    username   = "adminuser"
     public_key = tls_private_key.vm_ssh.public_key_openssh
   }
 
@@ -31,7 +31,7 @@ resource "azurerm_linux_virtual_machine" "vm_web" {
   }
 
   source_image_reference {
-    publisher = "canonical"
+    publisher = "Canonical"
     offer     = "0001-com-ubuntu-server-focal"
     sku       = "20_04-lts"
     version   = "latest"

@@ -41,7 +41,7 @@ resource "azurerm_network_interface" "aks_nic" {
     subnet_id                     = azurerm_subnet.myvnet_subnet.id
     private_ip_address_allocation = "Static"
     private_ip_address            = "10.0.1.11"
-    public_ip_address_id          = azurerm_public_ip.vm_public_ip.id
+    public_ip_address_id          = azurerm_public_ip.aks_public_ip.id
   }
   tags = {
     environment = "CP2"
