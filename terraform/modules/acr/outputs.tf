@@ -15,5 +15,5 @@ output "acr_password" {
 
 output "acr_name" {
   description = "Containers register name"
-  value       = azurerm_container_registry.acr.acr_name
+  value       = azurerm_container_registry.acr.name
 }
