@@ -4,9 +4,11 @@
     dest: /tmp/e-commerce-angular17
 
 - name: Build Docker image from the Angular project
-  containers.podman.podman_build:
+  containers.podman.podman_image:
+    name: e-commerce-angular17
     path: /tmp/e-commerce-angular17
     tag: e-commerce-angular17:latest
+    build: true
 
 - name: Tag Docker image for ACR
   containers.podman.podman_tag:
