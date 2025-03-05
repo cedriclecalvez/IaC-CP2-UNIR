@@ -1,24 +1,13 @@
-acr_name: "your-acr-name"
-acr_login_server: your_acr_login_server.azurecr.io
-acr_username: your_acr_username
-acr_password: your_acr_password
+# === ACR Variables ===
+acr_login_server: "{{ lookup('community.general.terraform', 'acr_login_server') }}"
+acr_username: "{{ lookup('community.general.terraform', 'acr_username') }}"
+acr_password: "{{ lookup('community.general.terraform', 'acr_password') }}"
 
-container_images:
-  - source: your_source_registry
-    name: your_image_name
-    tag: latest
+# === VM Variables ===
+vm_public_ip: "{{ lookup('community.general.terraform', 'vm_public_ip_addresses') }}"
+vm_user: "adminuser"
+vm_private_key_path: "/tmp/terraform_vm_key.pem"
 
-
-resource_group_name: "your-resource-group"
-
-azure_tenant_id: "your-tenant-id"
-azure_client_id: "your-client-id"
-azure_client_secret: "your-client-secret"
-
-image_name: "my-app"
-image_tag: "latest"
-
-vm_user: "your-vm-user"
-vm_host: "your-vm-ip"
-
-aks_namespace: "my-namespace"
+# === AKS Variables ===
+aks_cluster_name: "{{ lookup('community.general.terraform', 'aks_cluster_name') }}"
+aks_kube_config: "{{ lookup('community.general.terraform', 'aks_kube_config') }}"
