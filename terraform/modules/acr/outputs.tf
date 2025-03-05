@@ -12,3 +12,8 @@ output "acr_password" {
   value       = azurerm_container_registry.acr.admin_password
   sensitive   = true
 }
+
+output "acr_name" {
+  description = "Containers register name"
+  value       = azurerm_container_registry.acr.acr_name
+}
