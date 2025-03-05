@@ -1,0 +1,5 @@
+- name: Connexion to Azure Container Registry
+  ansible.builtin.docker_login:
+    registry_url: "{{ acr_login_server }}"
+    username: "{{ acr_username }}"
+    password: "{{ acr_password }}"

@@ -1,0 +1,8 @@
+---
+- name: Setup complete infrastructure
+  hosts: all
+  become: yes
+  roles:
+    - acr
+    - vm
+    - aks

@@ -1,0 +1,5 @@
+- name: Manage Azure Container Registry (ACR)
+  hosts: all
+  become: yes
+  roles:
+    - acr

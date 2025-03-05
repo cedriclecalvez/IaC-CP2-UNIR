@@ -1,0 +1,23 @@
+- name: Clone the Angular project from GitLab
+  ansible.builtin.git:
+    repo: 'https://gitlab.com/cedric69/e-commerce-angular17.git'
+    dest: /tmp/e-commerce-angular17
+
+- name: Build Docker image from the Angular project
+  containers.podman.podman_build:
+    path: /tmp/e-commerce-angular17
+    tag: e-commerce-angular17:latest
+
+- name: Tag Docker image for ACR
+  containers.podman.podman_tag:
+    image: e-commerce-angular17:latest
+    target_names:
+      - "{{ acr_name }}.azurecr.io/casopractico2/e-commerce-angular17:latest"
+
+- name: Push Docker image including the Angular app and the Nginx server to ACR
+  containers.podman.podman_image:
+    name: "{{ acr_name }}.azurecr.io/casopractico2/e-commerce-angular17:latest"
+    push: yes
+    tls_verify: false
+    username: "{{ azure_acr_username }}"
+    password: "{{ azure_acr_password }}"
