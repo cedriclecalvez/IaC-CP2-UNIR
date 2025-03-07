@@ -18,7 +18,7 @@ crash.*.log
 *.tfvars
 *.tfvars.json
 
-inventory.json
+
 # Ignore override files as they are usually used to override resources locally and so
 # are not checked in
 override.tf
@@ -43,6 +43,12 @@ terraform.rc
 /tmp/terraform_vm_key.pem  # Clé SSH temporaire
 *.retry  # Fichiers de relance Ansible
 *.vault  # Fichiers chiffrés Ansible Vault
+
+# Ansible group vars secrets
+*.all_group_vars_secret
+*.all_group_vars
+./ansible/inventories/production/all_group_vars_secret.yml
+**/all_group_vars_secret.yml
 
 
 # === SSH Keys ===

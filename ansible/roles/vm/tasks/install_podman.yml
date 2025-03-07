@@ -1,3 +1,13 @@
+- name: Add repository key
+  ansible.builtin.apt_key:
+    url: 'https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_20.04/Release.key'
+    state: present
+
+- name: Add Podman repository
+  ansible.builtin.apt_repository:
+    repo: 'deb http://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_20.04/ /'
+    state: present
+
 - name: Ensure Podman is installed
   ansible.builtin.apt:
     name: podman

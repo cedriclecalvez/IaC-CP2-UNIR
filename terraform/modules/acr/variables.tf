@@ -16,25 +16,7 @@ variable "resource_group_name" {
 
 variable "acr_sku" {
   description = "Nivel of services for Vm"
-  default     = "Standard"
+  default     = "Basic"
   type        = string
-}
-variable "role_definition_name" {
-  default = "AcrPull"
-  type    = string
-}
-
-
-
-variable "vm_principal_id" {
-  description = "The principal ID of the vm"
-  # default     = "azurerm_linux_virtual_machine.vm_web.identity[0].principal_id"
-  type = string
-}
-
-variable "aks_principal_id" {
-  description = "The principal ID of the aks"
-  # default     = "azurerm_kubernetes_cluster.aks.kubelet_identity[0].object_id"
-  type = string
 }
 

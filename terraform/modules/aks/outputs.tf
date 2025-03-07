@@ -14,9 +14,3 @@ output "aks_node_resource_group" {
   value       = azurerm_kubernetes_cluster.aks.node_resource_group
 }
 
-
-output "aks_principal_id" {
-  description = "The principal id of the AKS cluster"
-  value       = azurerm_kubernetes_cluster.aks.kubelet_identity[0].object_id
-}
-

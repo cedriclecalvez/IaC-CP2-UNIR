@@ -1,7 +1,2 @@
-- name: Setup complete infrastructure
-  hosts: all
-  become: yes
-  roles:
-    - acr
-    - vm
-    - aks
+- import_playbook: vm.yml
+- import_playbook: aks.yml

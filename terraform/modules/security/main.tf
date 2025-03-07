@@ -1,6 +1,6 @@
 # security group for the web server
-resource "azurerm_network_security_group" "web_sec_group" {
-  name                = var.web_nsg_name
+resource "azurerm_network_security_group" "nsg" {
+  name                = var.nsg_name
   resource_group_name = var.resource_group_name
   location            = var.location
 
@@ -15,16 +15,6 @@ resource "azurerm_network_security_group" "web_sec_group" {
     source_address_prefix      = "*"
     destination_address_prefix = "*"
   }
-  tags = {
-    environment = var.tag_value
-  }
-}
-# security group for the aks
-resource "azurerm_network_security_group" "aks_sec_group" {
-  name                = var.aks_nsg_name
-  resource_group_name = var.resource_group_name
-  location            = var.location
-
   security_rule {
     name                       = "HTTP"
     priority                   = 1002
@@ -41,14 +31,10 @@ resource "azurerm_network_security_group" "aks_sec_group" {
   }
 }
 
-# associate the security group with the network interface for the web server
-resource "azurerm_network_interface_security_group_association" "vm_nic_sg_association" {
-  network_interface_id      = var.vm_nic_id
-  network_security_group_id = azurerm_network_security_group.web_sec_group.id
+
+# associate the security group with the network interface 
+resource "azurerm_network_interface_security_group_association" "nic_nsg_association" {
+  network_interface_id      = var.nic_id
+  network_security_group_id = azurerm_network_security_group.nsg.id
 }
 
-# associate the security group with the network interface for the aks
-resource "azurerm_network_interface_security_group_association" "aks_nic_sg_association" {
-  network_interface_id      = var.aks_nic_id
-  network_security_group_id = azurerm_network_security_group.aks_sec_group.id
-}

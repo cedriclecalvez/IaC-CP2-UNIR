@@ -49,16 +49,14 @@ module "security" {
   source              = "./modules/security"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
-  vm_nic_id           = module.network.vm_nic_id
-  aks_nic_id          = module.network.aks_nic_id
+  nic_id              = module.network.nic_id
 }
 
 module "acr" {
   source              = "./modules/acr"
   resource_group_name = azurerm_resource_group.rg.name
   location            = azurerm_resource_group.rg.location
-  vm_principal_id     = module.vm.vm_principal_id
-  aks_principal_id    = module.aks.aks_principal_id
+
 }
 
 module "vm" {
@@ -66,13 +64,12 @@ module "vm" {
   resource_group_name = azurerm_resource_group.rg.name
   location            = azurerm_resource_group.rg.location
   storage_account_uri = azurerm_storage_account.sa.primary_blob_endpoint
-  vm_nic_id           = module.network.vm_nic_id
+  nic_id              = module.network.nic_id
 }
 
 module "aks" {
   source              = "./modules/aks"
   resource_group_name = azurerm_resource_group.rg.name
   location            = azurerm_resource_group.rg.location
-
 }
 

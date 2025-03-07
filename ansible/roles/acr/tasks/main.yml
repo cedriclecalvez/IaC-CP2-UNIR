@@ -1,2 +1,0 @@
-- name: Clone, build and push image from the Angular project including Nginx to ACR
-  ansible.builtin.import_tasks: push_app_image.yml

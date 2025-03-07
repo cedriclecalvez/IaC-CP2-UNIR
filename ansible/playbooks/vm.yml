@@ -1,5 +1,5 @@
 - name: Configure VM with Podman
-  hosts: all
-  become: yes
+  hosts: vm-host
+  become: true
   roles:
     - vm

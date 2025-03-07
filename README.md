@@ -15,9 +15,23 @@ terraform
 --security/
 --vm/
 
+ansible
+-inventories/
+--production/
+---hosts
+-playbooks/
+--setup.yml
+-roles/
+--vm/
+---tasks/
+----main.yml
+--aks/
+---tasks/
+----main.yml
+
     ## Prerequisites
 
-- Terraform >= 1.10.0
+- Terraform
 - Ansible
 - Azure CLI
 
@@ -39,36 +53,59 @@ terraform
    tenant_id       = "your-tenant-id"
    ```
 
-3. Clone the repository:
+3. Initialize Terraform:
 
    ```sh
-   git clone <repository-url>
-   cd <repository-directory>
-   ```
-
-4. Initialize Terraform:
-
-   ```sh
+   cd terraform
    terraform init
    ```
 
-5. Plan the deployment:
+4. Plan the deployment:
 
    ```sh
    terraform plan
    ```
 
-6. Apply the deployment:
+5. Apply the deployment:
 
    ```sh
    terraform apply
    ```
 
-7. Retrieve the outputs:
+6. Retrieve the outputs:
 
    ```sh
    terraform output
    ```
+
+7. Configure Ansible vars from terraform:
+
+   ```sh
+   cd ansible
+   python3 ./var_plugins/terraform_vars.py
+   ```
+
+8. Put manually the ip of the VM in hosts files
+
+9. Launch Ansible to apply configuration:
+
+   ```sh
+   ansible-playbook playbooks/setup.yml
+   ```
+
+Extra:
+
+Connect to azure VM:
+
+```
+ssh adminuser@<ip_adress>
+```
+
+Check image on azure container registry:
+
+```
+az acr repository show --name <acr_name> --repository casopractico2/e-commerce-angular17
+```
 
 ## Modules
 
@@ -102,16 +139,13 @@ terraform
 - **Resource Group Name:** `output.resource_group_name`
 - **Location:** `output.location`
 - **Storage Account Name:** `output.storage_account_name`
-- **VM Private Key:** `module.vm.private_key`
-- **VM Public Key:** `module.vm.public_key`
 - **VM IDs:** `module.vm.vm_ids`
 - **VM Principal ID:** `module.vm.vm_principal_id`
 - **VM Public IP Addresses:** `module.vm.vm_public_ip_addresses`
 - **AKS Cluster Name:** `module.aks.aks_cluster_name`
 - **AKS Node Resource Group:** `module.aks.aks_node_resource_group`
 - **AKS Public IP:** `module.aks.aks_public_ip`
-- **VM NIC ID:** `module.network.vm_nic_id`
-- **AKS NIC ID:** `module.network.aks_nic_id`
+- **NIC ID:** `module.network.nic_id`
 - **Virtual Network ID:** `module.network.vnet_id`
 - **Subnet ID:** `module.network.subnet_id`
 - **ACR Login Server:** `module.acr.acr_login_server`

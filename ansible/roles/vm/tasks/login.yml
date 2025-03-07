@@ -1,5 +1,9 @@
+- name: Include secret variables
+  ansible.builtin.include_vars:
+    file: /root/dev/unir_universidad/IaC-CP2-UNIR/ansible/inventories/production/all_group_vars_secret.yml
+
 - name: Connexion to Azure Container Registry
-  ansible.builtin.docker_login:
-    registry_url: "{{ acr_login_server }}"
+  containers.podman.podman_login:
+    registry: "{{ acr_login_server }}"
     username: "{{ acr_username }}"
     password: "{{ acr_password }}"
