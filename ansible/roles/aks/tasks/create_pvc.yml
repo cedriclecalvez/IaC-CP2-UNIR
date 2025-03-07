@@ -1,0 +1,16 @@
+- name: Create a Persistent Volume Claim (PVC)
+  kubernetes.core.k8s:
+          state: present
+          kubeconfig: ~/.kube/aksconfig
+          definition:
+              apiVersion: v1
+              kind: PersistentVolumeClaim
+              metadata:
+                  name: my-pvc-cp2
+                  namespace: my-aks-unir
+              spec:
+                  accessModes:
+                      - ReadWriteOnce
+                  resources:
+                      requests:
+                          storage: 1Gi

@@ -1,0 +1,18 @@
+- name : Expose deployment with a LoadBalancer service
+  kubernetes.core.k8s:
+    state: present
+    kubeconfig: ~/.kube/aksconfig
+    definition:
+      apiVersion: v1
+      kind: Service
+      metadata:
+        name: my-service-cp2
+        namespace: my-aks-unir
+      spec:
+        selector:
+          app: my-app
+        ports:
+          - protocol: TCP
+            port: 80
+            targetPort: 80
+        type: LoadBalancer

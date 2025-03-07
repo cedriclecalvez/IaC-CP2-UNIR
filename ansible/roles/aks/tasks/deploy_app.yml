@@ -1,0 +1,34 @@
+- name: Deploy application from ACR to AKS cluster
+  kubernetes.core.k8s:
+    state: present
+    kubeconfig: ~/.kube/aksconfig
+    definition:
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: my-deployment
+        namespace: my-aks-unir
+      spec:
+        replicas: 1
+        selector:
+          matchLabels:
+            app: my-app
+        template:
+          metadata:
+            labels:
+              app: my-app
+          spec:
+            containers:
+              - name: my-app
+                image: "{{ acr_login_server }}/postgen:casopratico2/my-app:latest"
+                ports:
+                  - containerPort: 80
+                volumeMounts:
+                  - name: volume-unir
+                    mountPath: /app/data
+            volumes:
+              - name: my-pvc-volume-unir
+                persistentVolumeClaim:
+                  claimName: my-pvc-cp2
+            imagePullSecrets:
+              - name: acr-secret

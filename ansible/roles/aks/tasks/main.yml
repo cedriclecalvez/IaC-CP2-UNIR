@@ -1,0 +1,13 @@
+- name: Include secret variables
+  ansible.builtin.include_vars:
+    # file: /root/dev/unir_universidad/IaC-CP2-UNIR/ansible/inventories/production/all_group_vars_secret.yml
+    file: ~/IaC-CP2-UNIR/ansible/inventories/production/all_group_vars_secret.yml
+
+- name: Create a Persistent Volume Claim (PVC)
+  ansible.builtin.import_tasks: create_pvc.yml
+
+- name: Expose deployment with a LoadBalancer service
+  ansible.builtin.import_tasks: expose_lb_service.yml
+
+- name: Deploy application from ACR to AKS cluster
+  ansible.builtin.import_tasks: deploy_app.yml
