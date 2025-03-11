@@ -8,7 +8,7 @@ resource "local_file" "ansible_inventory" {
   content = templatefile("inventory_hosts_dynamic.tmpl",
     {
       vm_public_ip_address = module.vm.vm_public_ip_addresses[0]
-      vm_user              = "adminuser"
+      admin_username       = module.vm.admin_username
       aks_cluster_name     = module.aks.aks_cluster_name
     }
   )
@@ -25,7 +25,7 @@ resource "local_file" "ansible_all_group_vars_secrets" {
   content = templatefile("inventory_vars_dynamic.tmpl",
     {
       vm_public_ip_address = module.vm.vm_public_ip_addresses[0]
-      vm_user              = "adminuser" # Add this line
+      admin_username       = module.vm.admin_username
       acr_login_server     = module.acr.acr_login_server
       acr_username         = module.acr.acr_username
       acr_password         = module.acr.acr_password

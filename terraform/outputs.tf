@@ -15,6 +15,10 @@ output "aks_kube_config" {
   value       = module.aks.aks_kube_config
   sensitive   = true
 }
+output "admin_username" {
+  description = "The admin username for the VM"
+  value       = module.vm.admin_username
+}
 output "aks_cluster_name" {
   description = "The name of the AKS cluster"
   value       = module.aks.aks_cluster_name

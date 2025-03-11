@@ -7,8 +7,13 @@ variable "vm_name" {
   description = "The name of the virtual machine"
   default     = "myvm-unir"
   type        = string
-
 }
+variable "admin_username" {
+  description = "The username for the virtual machine"
+  default     = "adminuser"
+  type        = string
+}
+
 variable "resource_group_name" {
   description = "The name of the resource group"
   type        = string
