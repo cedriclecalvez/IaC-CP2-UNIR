@@ -18,6 +18,17 @@ crash.*.log
 *.tfvars
 *.tfvars.json
 
+*.inventory.tf
+.inventory.tf
+*.inventory.tmpl
+.inventory.tmpl
+*.inventory_hosts.tmpl
+.inventory_hosts.tmpl
+*.all_group_vars_secrets.yml
+.all_group_vars_secrets.yml
+*.all_group_vars_secrets.tmpl
+.all_group_vars_secrets.tmpl
+
 
 # Ignore override files as they are usually used to override resources locally and so
 # are not checked in
