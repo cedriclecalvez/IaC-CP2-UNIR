@@ -3,15 +3,15 @@
     repo: "https://gitlab.com/cedric69/my-todo-app/My-Todo-MonoRepo"
     dest: /tmp/My-Todo-MonoRepo
 
-- name: Build Podman image from the MERN project using podman-compose
-  containers.podman.podman_compose:
-    project_dir: /tmp/My-Todo-MonoRepo
-    files:
-      - /tmp/My-Todo-MonoRepo/podman-compose.yml
-    state: present
+# - name: Build Podman image from the MERN project using podman-compose
+#   containers.podman.podman_compose:
+#     project_dir: /tmp/My-Todo-MonoRepo
+#     files:
+#       - /tmp/My-Todo-MonoRepo/podman-compose.yml
+#     state: present
 
-- name: Push Podman MERN project image to AKS
-  containers.podman.podman_image:
-    name: "{{ acr_login_server }}/casopractico2/My-Todo-MonoRepo:latest"
-    push: yes
-    tls_verify: false
+# - name: Push Podman MERN project image to AKS
+#   containers.podman.podman_image:
+#     name: "{{ acr_login_server }}/casopractico2/My-Todo-MonoRepo:latest"
+#     push: yes
+#     tls_verify: false

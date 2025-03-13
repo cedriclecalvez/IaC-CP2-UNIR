@@ -1,12 +1,12 @@
 - name : Expose deployment with a LoadBalancer service
   kubernetes.core.k8s:
     state: present
-    kubeconfig: ~/.kube/aksconfig
+    kubeconfig: /root/.kube/config
     definition:
       apiVersion: v1
       kind: Service
       metadata:
-        name: my-service-cp2
+        name: my-lb-service-cp2
         namespace: my-aks-unir
       spec:
         selector:

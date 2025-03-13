@@ -1,7 +1,7 @@
 - name: Deploy application from ACR to AKS cluster
   kubernetes.core.k8s:
     state: present
-    kubeconfig: ~/.kube/aksconfig
+    kubeconfig: /root/.kube/config
     definition:
       apiVersion: apps/v1
       kind: Deployment
@@ -12,15 +12,15 @@
         replicas: 1
         selector:
           matchLabels:
-            app: my-app
+            app: my-todolist-app-unir-CP2
         template:
           metadata:
             labels:
-              app: my-app
+              app: my-todolist-app-unir-CP2
           spec:
             containers:
               - name: my-app
-                image: "{{ acr_login_server }}/postgen:casopratico2/my-app:latest"
+                image: "{{ acr_login_server }}/postgen:casopratico2/my-todolist-app-unir-CP2:latest"
                 ports:
                   - containerPort: 80
                 volumeMounts:

@@ -1,7 +1,3 @@
-- name: Include secret variables
-  ansible.builtin.include_vars:
-    file: /root/dev/unir_universidad/IaC-CP2-UNIR/ansible/inventories/production/all_group_vars_secret.yml
-
 - name: Clone the Angular project from GitLab
   ansible.builtin.git:
     repo: "https://gitlab.com/cedric69/e-commerce-angular17.git"

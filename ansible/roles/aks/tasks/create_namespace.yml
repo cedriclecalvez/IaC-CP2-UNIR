@@ -1,0 +1,10 @@
+- name: Create namespace
+  kubernetes.core.k8s:
+    state: present
+    kubeconfig: /root/.kube/config
+    definition:
+      apiVersion: v1
+      kind: Namespace
+      metadata:
+        name: my-aks-unir
+        

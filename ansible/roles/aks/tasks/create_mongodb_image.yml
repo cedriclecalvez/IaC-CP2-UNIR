@@ -1,0 +1,16 @@
+- name: Pull the official MongoDB image from Docker Hub
+  containers.podman.podman_image:
+    name: docker.io/library/mongo:latest
+    state: present
+
+- name: Tag the MongoDB image for ACR
+  containers.podman.podman_tag:
+    image: mongo:latest
+    target_names:
+      - "{{ acr_login_server }}/casopractico2/mongodb:latest"
+
+- name: Push the MongoDB image to ACR
+  containers.podman.podman_image:
+    name: "{{ acr_login_server }}/casopractico2/mongodb:latest"
+    push: yes
+    tls_verify: false

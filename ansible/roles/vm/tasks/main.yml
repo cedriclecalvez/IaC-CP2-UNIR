@@ -1,3 +1,7 @@
+- name: Include secret variables
+  ansible.builtin.include_vars:
+    file: /root/dev/unir_universidad/IaC-CP2-UNIR/terraform/inventory_vars_dynamic.yml
+
 - name: Ensure Podman is installed
   ansible.builtin.import_tasks: install_podman.yml
 
@@ -7,5 +11,5 @@
 - name: Clone, build and push image from the Angular project including Nginx to ACR
   ansible.builtin.import_tasks: push_app_image.yml
 
-- name: Run application from ACR
+- name: Pull from ACR and run application in a Podman container of the VM
   ansible.builtin.import_tasks: run_app.yml

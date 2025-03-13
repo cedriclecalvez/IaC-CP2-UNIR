@@ -1,7 +1,3 @@
-- name: Include secret variables
-  ansible.builtin.include_vars:
-    file: /root/dev/unir_universidad/IaC-CP2-UNIR/ansible/inventories/production/all_group_vars_secret.yml
-
 - name: Pull application image from ACR
   containers.podman.podman_image:
     name: "{{ acr_login_server }}/casopractico2/e-commerce-angular17"
@@ -17,7 +13,7 @@
     var: podman_images.stdout_lines
 
 
-- name: Run application from ACR
+- name: Run application in a Podman container of the VM
   containers.podman.podman_container:
     name: e-commerce-angular17
     image: "{{ acr_login_server }}/casopractico2/e-commerce-angular17"
@@ -31,6 +27,6 @@
     cmd: podman ps -a
   register: podman_containers
 
-- name: Show Podman containers
+- name: Show Podman containers where the application is running
   ansible.builtin.debug:
     var: podman_containers.stdout_lines
