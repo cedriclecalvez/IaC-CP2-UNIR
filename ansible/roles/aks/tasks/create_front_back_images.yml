@@ -1,0 +1,35 @@
+- name: Clone the MERN project from GitLab
+  ansible.builtin.git:
+    repo: "https://gitlab.com/cedric69/my-todo-app/My-Todo-MonoRepo"
+    dest: /tmp/My-Todo-MonoRepo
+
+- name: Build image from the web project folder
+  containers.podman.podman_image:
+    name: "{{ acr_login_server }}/casopractico2/my-todo-web"
+    path: /tmp/My-Todo-MonoRepo/web
+    tag: latest
+    build_args:
+      format: docker
+      file: Containerfile
+
+- name: Push image including the React app and the Nginx server to ACR
+  containers.podman.podman_image:
+    name: "{{ acr_login_server }}/casopractico2/my-todo-web:latest"
+    push: yes
+    tls_verify: false
+
+- name: Build image from the api project folder
+  containers.podman.podman_image:
+    name: "{{ acr_login_server }}/casopractico2/my-todo-api"
+    path: /tmp/My-Todo-MonoRepo/api
+    tag: latest
+    build_args:
+      format: docker
+      file: Containerfile
+
+- name: Push image including the NodeJs Api to ACR
+  containers.podman.podman_image:
+    name: "{{ acr_login_server }}/casopractico2/my-todo-api:latest"
+    push: yes
+    tls_verify: false
+

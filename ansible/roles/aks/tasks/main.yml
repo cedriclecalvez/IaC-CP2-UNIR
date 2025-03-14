@@ -19,8 +19,9 @@
 
 - name: Expose MongoDB service
   ansible.builtin.import_tasks: expose_mongodb_service.yml
-# - name: Clone, build and push MERN project image from Gitlab repo to ACR
-#   ansible.builtin.import_tasks: push_app_image.yml
+
+- name: Clone from Gitlab repo, build and push MERN project images to ACR
+  ansible.builtin.import_tasks: create_front_back_images.yml
 # - name: Expose deployment with a LoadBalancer service
 #   ansible.builtin.import_tasks: expose_lb_service.yml
 # - name: Deploy application from ACR to AKS cluster

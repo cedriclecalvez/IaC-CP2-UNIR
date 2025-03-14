@@ -87,6 +87,13 @@ ansible
 
 8. Put manually the ip of the VM in hosts files
 
+kubectl create secret generic mongodb-secret-unir \
+ --namespace my-aks-unir \
+ --from-literal=MONGO_INITDB_ROOT_USERNAME=xxx \
+ --from-literal=MONGO_INITDB_ROOT_PASSWORD=xxx
+
+kubectl get secret mongodb-secret-unir -n my-aks-unir -o yaml
+
 9. Launch Ansible to apply configuration:
 
    ```sh
