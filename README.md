@@ -78,21 +78,23 @@ ansible
    terraform output
    ```
 
-7. Configure Ansible vars from terraform:
+7. Ansible vars and hosts are setted from terraform automatically: is using inventory_vars.tf with templates .tmpl
+
+8. Launch cmd to set mongo env
 
    ```sh
-   cd ansible
-   python3 ./var_plugins/terraform_vars.py
+   kubectl create secret generic mongodb-secret-unir \
+   --namespace my-aks-unir \
+   --from-literal=MONGO_INITDB_ROOT_USERNAME=xxx \
+   --from-literal=MONGO_INITDB_ROOT_PASSWORD=xxx \
+   --from-literal=MONGO_URI=xxx
    ```
 
-8. Put manually the ip of the VM in hosts files
+   to verify:
 
-kubectl create secret generic mongodb-secret-unir \
- --namespace my-aks-unir \
- --from-literal=MONGO_INITDB_ROOT_USERNAME=xxx \
- --from-literal=MONGO_INITDB_ROOT_PASSWORD=xxx
-
-kubectl get secret mongodb-secret-unir -n my-aks-unir -o yaml
+   ```sh
+   kubectl get secret mongodb-secret-unir -n my-aks-unir -o yaml
+   ```
 
 9. Launch Ansible to apply configuration:
 
@@ -111,7 +113,11 @@ ssh adminuser@<ip_adress>
 Check image on azure container registry:
 
 ```
-az acr repository show --name <acr_name> --repository casopractico2/e-commerce-angular17
+az acr repository show --name <acr_name> --repository casopractico2/<app_name>
+```
+
+```
+az aks get-credentials --resource-group <rg-name> --name <aks_name>
 ```
 
 ## Modules

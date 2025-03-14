@@ -1,0 +1,73 @@
+- name: Deploy frontend application
+  kubernetes.core.k8s:
+    state: present
+    kubeconfig: /root/.kube/config
+    definition:
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: frontend-deployment
+        namespace: my-aks-unir
+      spec:
+        replicas: 1
+        selector:
+          matchLabels:
+            app: my-todo-web
+        template:
+          metadata:
+            labels:
+              app: my-todo-web
+          spec:
+            containers:
+              - name: frontend-container
+                image: "{{ acr_login_server }}/casopractico2/my-todo-web:latest"
+                ports:
+                  - containerPort: 80
+                env:
+                  - name: REACT_APP_API_BASE_URL
+                    valueFrom:
+                      configMapKeyRef:
+                        name: frontend-config
+                        key: REACT_APP_API_BASE_URL
+
+- name: Deploy backend application
+  kubernetes.core.k8s:
+    state: present
+    kubeconfig: /root/.kube/config
+    definition:
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: backend-deployment
+        namespace: my-aks-unir
+      spec:
+        replicas: 1
+        selector:
+          matchLabels:
+            app: my-todo-api
+        template:
+          metadata:
+            labels:
+              app: my-todo-api
+          spec:
+            containers:
+              - name: backend-container
+                image: "{{ acr_login_server }}/casopractico2/my-todo-api:latest"
+                ports:
+                  - containerPort: 80
+                env:
+                  - name: PORT
+                    valueFrom:
+                      configMapKeyRef:
+                        name: backend-config
+                        key: PORT
+                  - name: APP_BASE_URL
+                    valueFrom:
+                      configMapKeyRef:
+                        name: backend-config
+                        key: APP_BASE_URL                 
+                  - name: MONGO_URI
+                    valueFrom:
+                      secretKeyRef:
+                        name: mongodb-secret-unir
+                        key: MONGO_URI

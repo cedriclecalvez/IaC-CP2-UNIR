@@ -1,0 +1,26 @@
+- name: Create ConfigMap for frontend to backend communication
+  kubernetes.core.k8s:
+    state: present
+    kubeconfig: /root/.kube/config
+    definition:
+      apiVersion: v1
+      kind: ConfigMap
+      metadata:
+        name: frontend-config
+        namespace: my-aks-unir
+      data:
+        REACT_APP_API_BASE_URL: "http://backend-service:80/api/v1"
+
+- name: Create ConfigMap for backend
+  kubernetes.core.k8s:
+    state: present
+    kubeconfig: /root/.kube/config
+    definition:
+      apiVersion: v1
+      kind: ConfigMap
+      metadata:
+        name: backend-config
+        namespace: my-aks-unir
+      data:
+        PORT: "8080"
+        APP_BASE_URL: "/api/v1/"
