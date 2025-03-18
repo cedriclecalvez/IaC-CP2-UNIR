@@ -87,7 +87,7 @@ ansible
    --namespace my-aks-unir \
    --from-literal=MONGO_INITDB_ROOT_USERNAME=xxx \
    --from-literal=MONGO_INITDB_ROOT_PASSWORD=xxx \
-   --from-literal=MONGO_URI=xxx
+   --from-literal=MONGO_DB=xxx
    ```
 
    to verify:
@@ -99,6 +99,7 @@ ansible
 9. Launch Ansible to apply configuration:
 
    ```sh
+   az aks get-credentials --resource-group XXX --name XXX
    ansible-playbook playbooks/setup.yml
    ```
 

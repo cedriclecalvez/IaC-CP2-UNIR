@@ -1,0 +1,27 @@
+# - name: Create a global admin user
+#   community.mongodb.mongodb_user:
+#     login_host: 10.0.151.195
+#     login_port: 27017
+#     login_user: root
+#     login_password: rootpassword
+#     database: admin
+#     name: admin
+#     password: ced123
+#     roles:
+#       - role: userAdminAnyDatabase
+#         db: admin
+#     state: present
+
+# - name: Create a MongoDB user for the todo-app database
+#   community.mongodb.mongodb_user:
+#     login_host: 10.0.151.195 mongob-cp2-unir
+#     login_port: 27017
+#     login_user: admin
+#     login_password: ced123
+#     database: todo-app
+#     name: admin
+#     password: ced123
+#     roles:
+#       - role: readWrite
+#         db: todo-app
+#     state: present

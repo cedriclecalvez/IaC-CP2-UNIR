@@ -1,6 +1,7 @@
 - name: Create MongoDB service
   kubernetes.core.k8s:
     state: present
+    kubeconfig: /root/.kube/config
     definition:
       apiVersion: v1
       kind: Service
@@ -9,7 +10,9 @@
         namespace: my-aks-unir
       spec:
         ports:
-          - port: 27017
+          - protocol: TCP
+            port: 27017
+            targetPort: 27017
         selector:
           app: mongodb-unir
         type: ClusterIP # for internal access only

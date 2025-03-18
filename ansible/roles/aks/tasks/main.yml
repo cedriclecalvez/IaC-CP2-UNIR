@@ -20,6 +20,9 @@
 - name: Expose MongoDB service
   ansible.builtin.import_tasks: expose_mongodb_service.yml
 
+# - name: Create MongoDb configuration
+#   ansible.builtin.import_tasks: create_mongodb_config.yml
+
 - name: Create ConfigMap
   ansible.builtin.import_tasks: create_configmap.yml
 

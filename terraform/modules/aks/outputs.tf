@@ -1,5 +1,5 @@
 output "aks_kube_config" {
-  description = "The kube config for the AKS cluster"
+  description = "The kube config for the AKS cluster for Ansible"
   value       = azurerm_kubernetes_cluster.aks.kube_config_raw
   sensitive   = true
 }

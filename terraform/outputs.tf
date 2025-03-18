@@ -19,14 +19,14 @@ output "admin_username" {
   description = "The admin username for the VM"
   value       = module.vm.admin_username
 }
+output "vm_public_ip_addresses" {
+  description = "The public IP addresses of the VM"
+  value       = module.vm.vm_public_ip_addresses
+}
 output "aks_cluster_name" {
   description = "The name of the AKS cluster"
   value       = module.aks.aks_cluster_name
   sensitive   = true
-}
-output "vm_public_ip_addresses" {
-  description = "The public IP addresses of the VM"
-  value       = module.vm.vm_public_ip_addresses
 }
 output "acr_username" {
   description = "The username for the container registry"

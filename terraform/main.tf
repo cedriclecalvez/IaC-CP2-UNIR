@@ -11,11 +11,16 @@ terraform {
 
 # provider block, create a provider
 provider "azurerm" {
-  features {}
+  features {
+    # resource_group {
+    #   prevent_deletion_if_contains_resources = false
+    # }
+  }
   subscription_id = var.subscription_id
   # client_id       = var.client_id
   # client_secret   = var.client_secret
   # tenant_id       = var.tenant_id
+
 }
 # resource group
 resource "azurerm_resource_group" "rg" {
@@ -71,5 +76,6 @@ module "aks" {
   source              = "./modules/aks"
   resource_group_name = azurerm_resource_group.rg.name
   location            = azurerm_resource_group.rg.location
+  acr_id              = module.acr.acr_id
 }
 

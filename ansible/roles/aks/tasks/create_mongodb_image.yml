@@ -14,3 +14,30 @@
     name: "{{ acr_login_server }}/casopractico2/mongodb:latest"
     push: yes
     tls_verify: false
+# - name: Clone the MERN project from GitLab
+#   ansible.builtin.git:
+#     repo: "https://gitlab.com/cedric69/my-todo-app/My-Todo-MonoRepo"
+#     dest: /tmp/My-Todo-MonoRepo
+
+# - name: Build Mongodb custom image from project folder
+#   containers.podman.podman_image:
+#     name: "{{ acr_login_server }}/casopractico2/mongodb"
+#     path: /tmp/My-Todo-MonoRepo
+#     tag: custom
+#     build_args:
+#       format: docker
+#       file: Containerfile
+# - name: Tag the MongoDB custom image for ACR
+#   containers.podman.podman_tag:
+#     image: mongo:custom
+#     target_names:
+#       - "{{ acr_login_server }}/casopractico2/mongodb:custom"
+
+# - name: Push the MongoDB custom image to ACR
+#   containers.podman.podman_image:
+#     name: "{{ acr_login_server }}/casopractico2/mongodb:custom"
+#     push: yes
+#     tls_verify: false
+
+
+
