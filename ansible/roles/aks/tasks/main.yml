@@ -23,8 +23,8 @@
 # - name: Create MongoDb configuration
 #   ansible.builtin.import_tasks: create_mongodb_config.yml
 
-- name: Create ConfigMap
-  ansible.builtin.import_tasks: create_configmap.yml
+# - name: Create ConfigMap
+#   ansible.builtin.import_tasks: create_configmap.yml
 
 - name: Clone from Gitlab repo, build and push MERN project images to ACR
   ansible.builtin.import_tasks: create_front_back_images.yml

@@ -1,62 +1,3 @@
-# - name: Create MongoDB deployment
-#   kubernetes.core.k8s:
-#     state: present
-#     definition:
-#       apiVersion: apps/v1
-#       kind: deployment
-#       metadata:
-#         name: mongodb-cp2-unir
-#         namespace: my-aks-unir
-#       spec:
-#         replicas: 1
-#         selector:
-#           matchLabels:
-#             app: mongodb-unir
-#         template:
-#           metadata:
-#             labels:
-#               app: mongodb-unir
-#           spec:            
-#             containers:
-#               - name: mongodb-container-unir
-#                 # image: "{{ acr_login_server }}/casopractico2/mongodb:custom"
-#                 image: "{{ acr_login_server }}/casopractico2/mongodb:latest"
-#                 ports:
-#                   - containerPort: 27017
-#                 # env:
-#                 #   - name: MONGO_INITDB_ROOT_USERNAME
-#                 #     valueFrom:
-#                 #       secretKeyRef:
-#                 #         name: mongodb-secret-unir
-#                 #         key: MONGO_INITDB_ROOT_USERNAME
-#                 #   - name: MONGO_INITDB_ROOT_PASSWORD
-#                 #     valueFrom:
-#                 #       secretKeyRef:
-#                 #         name: mongodb-secret-unir
-#                 #         key: MONGO_INITDB_ROOT_PASSWORD
-#                 env:
-#                   - name: MONGO_INITDB_ROOT_USERNAME
-#                     value: admin
-#                   - name: MONGO_INITDB_ROOT_PASSWORD
-#                     value: ced123
-#                   - name: MONGO_INITDB_DATABASE
-#                     value: todo-app
-                
-#                     # valueFrom:
-#                     #   secretKeyRef:
-#                     #     name: mongodb-secret
-#                     #     key: mongodb-root-password
-#                     # valueFrom:
-#                     #   secretKeyRef:
-#                     #     name: mongodb-secret
-#                     #     key: mongodb-user-password
-              
-#             restartPolicy: Always 
-#             volumes:
-#               - name: mongodb-storage-unir
-#                 persistentVolumeClaim:
-#                   claimName: my-pvc-cp2
-              
 - name: Create MongoDB deployment
   kubernetes.core.k8s:
     state: present
@@ -79,16 +20,16 @@
             containers:
               - name: mongodb-container-unir
                 image: "{{ acr_login_server }}/casopractico2/mongodb:latest"
-                command: ["mongod", "--noauth"]
+                command: ["mongod", "--noauth", "--bind_ip_all"]
                 ports:
                   - containerPort: 27017
                 env:
                   - name: MONGO_INITDB_ROOT_USERNAME
                     value: "admin"
                   - name: MONGO_INITDB_ROOT_PASSWORD
-                    value: "ced123"
-                  - name: MONGO_INITDB_DATABASE
-                    value: "todo-list"
+                    value: "password"
+                  # - name: MONGO_INITDB_DATABASE
+                  #   value: "todo-list"
                 volumeMounts:
                   - name: mongodb-storage-unir
                     mountPath: /data/db

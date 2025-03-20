@@ -30,7 +30,8 @@
                   #       name: frontend-config
                   #       key: REACT_APP_API_BASE_URL
                   - name: REACT_APP_API_BASE_URL
-                    value: "http://backend-service:8080/api/v1"
+                    value: "http://backend-service.my-aks-unir.svc.cluster.local:8080/api/v1"
+                    # value: "http://backend-service:8080/api/v1"
 
 - name: Deploy backend application
   kubernetes.core.k8s:
@@ -79,7 +80,10 @@
                   - name: APP_BASE_URL
                     value: "/api/v1/"
                   - name: MONGO_DB
-                    value: "mongodb://admin:adminpassword@mongodb-service-unir:27017/todo-app?retryWrites=true&w=majority"
+                    value: "mongodb://mongodb-service-unir:27017/todo-app"
+                    # value: "mongodb://admin:password@mongodb-service-unir:27017/todo-app?authSource=admin"
+                    # mongodb://admin:password@mongodb-service.namespace.svc.cluster.local:27017/mydatabase
+                    
                     
                   - name: ADMIN_NAME
                     value: "admin"
