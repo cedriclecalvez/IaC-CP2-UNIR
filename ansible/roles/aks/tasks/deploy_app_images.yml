@@ -68,7 +68,7 @@
                 #     valueFrom:
                 #       configMapKeyRef:
                 #         name: backend-config
-                #         key: APP_BASE_URL                 
+                #         key: APP_BASE_URL
                 #   - name: MONGO_DB
                 #     valueFrom:
                 #       secretKeyRef:
@@ -83,13 +83,12 @@
                     value: "mongodb://mongodb-service-unir:27017/todo-app"
                     # value: "mongodb://admin:password@mongodb-service-unir:27017/todo-app?authSource=admin"
                     # mongodb://admin:password@mongodb-service.namespace.svc.cluster.local:27017/mydatabase
-                    
-                    
+
                   - name: ADMIN_NAME
                     value: "admin"
                   - name: ADMIN_PASSWORD
                     value: "admin123"
-                  
+
                 # env :
                 #   - name: PORT
                 #     value: "8080"
