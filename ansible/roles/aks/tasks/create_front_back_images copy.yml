@@ -1,0 +1,73 @@
+- name: Clone the MERN project from GitLab
+  ansible.builtin.git:
+    repo: "https://gitlab.com/cedric69/my-todo-app/My-Todo-MonoRepo"
+    dest: /tmp/My-Todo-MonoRepo
+    force: yes
+  register: git_clone_result
+
+- name: Get the current Git commit hash
+  ansible.builtin.command:
+    cmd: git rev-parse HEAD
+    chdir: /tmp/My-Todo-MonoRepo
+  register: git_commit_hash
+  changed_when: false
+
+- name: Set image tag based on Git commit hash
+  ansible.builtin.set_fact:
+    web_image_tag: "{{ acr_login_server }}/casopractico2/my-todo-web:{{ git_commit_hash.stdout }}"
+    api_image_tag: "{{ acr_login_server }}/casopractico2/my-todo-api:{{ git_commit_hash.stdout }}"
+
+- name: Check for changes in the web project folder
+  ansible.builtin.find:
+    paths: /tmp/My-Todo-MonoRepo/web
+    age: 0s
+  register: web_files_changed
+
+- name: Set fact if web project has changes
+  ansible.builtin.set_fact:
+    web_changed: "{{ web_files_changed.matched > 0 }}"
+
+- name: Build image from the web project folder
+  containers.podman.podman_image:
+    name: "{{ web_image_tag }}"
+    path: /tmp/My-Todo-MonoRepo/web
+    tag: latest
+    build:
+      format: docker
+      file: Containerfile
+      extra_args: "--build-arg REACT_APP_BACKEND_SERVICE_URL_PROD=http://backend-service.my-aks-unir.svc.cluster.local:8080/api/v1"
+  when: web_changed
+
+- name: Push image including the React app and the Nginx server to ACR
+  containers.podman.podman_image:
+    name: "{{ web_image_tag }}"
+    push: yes
+    tls_verify: false
+  when: web_changed
+
+- name: Check for changes in the api project folder
+  ansible.builtin.find:
+    paths: /tmp/My-Todo-MonoRepo/api
+    age: 0s
+  register: api_files_changed
+
+- name: Set fact if api project has changes
+  ansible.builtin.set_fact:
+    api_changed: "{{ api_files_changed.matched > 0 }}"
+
+- name: Build image from the api project folder
+  containers.podman.podman_image:
+    name: "{{ api_image_tag }}"
+    path: /tmp/My-Todo-MonoRepo/api
+    tag: latest
+    build_args:
+      format: docker
+      file: Containerfile
+  when: api_changed
+
+- name: Push image including the NodeJs Api to ACR
+  containers.podman.podman_image:
+    name: "{{ api_image_tag }}"
+    push: yes
+    tls_verify: false
+  when: api_changed

@@ -2,34 +2,56 @@
   ansible.builtin.git:
     repo: "https://gitlab.com/cedric69/my-todo-app/My-Todo-MonoRepo"
     dest: /tmp/My-Todo-MonoRepo
+    update: yes
+
+- name: Set formatted timestamp for image tags
+  ansible.builtin.set_fact:
+    formatted_timestamp: "{{ ansible_date_time.date }}-{{ ansible_date_time.hour }}{{ ansible_date_time.minute }}{{ ansible_date_time.second }}"
+
+- name: Check if web folder has changed
+  ansible.builtin.stat:
+    path: /tmp/My-Todo-MonoRepo/web
+  register: web_folder_stat
+
+- name: Check if api folder has changed
+  ansible.builtin.stat:
+    path: /tmp/My-Todo-MonoRepo/api
+  register: api_folder_stat
 
 - name: Build image from the web project folder
+  when: web_folder_stat.stat.mtime > (ansible_date_time.epoch | int - 7200)  # Vérifie si modifié dans la dernière heure
   containers.podman.podman_image:
     name: "{{ acr_login_server }}/casopractico2/my-todo-web"
     path: /tmp/My-Todo-MonoRepo/web
-    tag: latest
-    build_args:
+    tag: "{{ formatted_timestamp }}"
+    build:
       format: docker
       file: Containerfile
+      extra_args: "--no-cache --build-arg REACT_APP_BACKEND_SERVICE_URL_PROD=http://backend-service.my-aks-unir.svc.cluster.local:8080/api/v1"
+
 
 - name: Push image including the React app and the Nginx server to ACR
+  when: web_folder_stat.stat.mtime > (ansible_date_time.epoch | int - 7200)  # Vérifie si modifié dans la dernière heure
   containers.podman.podman_image:
-    name: "{{ acr_login_server }}/casopractico2/my-todo-web:latest"
+    name: "{{ acr_login_server }}/casopractico2/my-todo-web:{{ formatted_timestamp }}"
     push: yes
     tls_verify: false
-
+  
 - name: Build image from the api project folder
+  when: api_folder_stat.stat.mtime > (ansible_date_time.epoch | int - 7200)  # Vérifie si modifié dans la dernière heure
   containers.podman.podman_image:
     name: "{{ acr_login_server }}/casopractico2/my-todo-api"
     path: /tmp/My-Todo-MonoRepo/api
-    tag: latest
+    tag: "{{ formatted_timestamp }}"
     build_args:
       format: docker
       file: Containerfile
 
 - name: Push image including the NodeJs Api to ACR
+  when: api_folder_stat.stat.mtime > (ansible_date_time.epoch | int - 7200)  # Vérifie si modifié dans la dernière heure
   containers.podman.podman_image:
-    name: "{{ acr_login_server }}/casopractico2/my-todo-api:latest"
+    name: "{{ acr_login_server }}/casopractico2/my-todo-api:{{ formatted_timestamp }}"
     push: yes
     tls_verify: false
+  
 
